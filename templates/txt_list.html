@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>TXT 사용자 목록 페이지</title>
+    </head>
+</html>
+<body>
+    <div>
+        <h1>TXT 사용자 목록 페이지</h1>
+    </div>
+    <div>
+        <table border="2">
+            <th colspan="1">사용자 목록</th>
+            <tr>
+                <td>이름</td>
+            </tr>
+            {% for username in data %}
+            <tr>
+                <td onClick="location.href='/detail/{{username}}'">{{ username }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>
+   
+</body>

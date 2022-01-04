@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>사용자 상세 페이지</title>
+    </head>
+</html>
+<body>
+    <div>
+        <h1>사용자 상세 페이지</h1>
+    </div>
+    <div>
+        <p>사용자 이름: {{ users.username }}</p>
+        <p>사용자 나이: {{ users.userage }}</p>
+    </div>
+    <script>
+        files = "/static/profile_imgs/Unknown.png"
+        $.ajax({
+            type : 'POST',                                  
+            url : 'http://127.0.0.1:5000/detail/{users.username}',
+            data : JSON.stringify(files),
+            dataType : 'JSON',
+            success : function(result){
+                
+            },
+            error : function(xtr,status,error){
+                alert(xtr +":"+status+":"+error);
+            }
+            });
+    </script>
+   
+</body>

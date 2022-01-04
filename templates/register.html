@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>사용자 등록 페이지</title>
+    </head>
+</html>
+<body>
+    <div>
+        <h1>사용자 등록 페이지</h1>
+    </div>
+    <div>
+        <form method="POST" enctype="multipart/form-data">
+            <div class = "form-group">
+                <label for="username">사용자 이름</label>
+                <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username"/>
+            </div>
+            <div class = "form-group">
+                <label for="userage">사용자 나이</label>
+                <input type="text" class="form-control" id="userage" placeholder="사용자 나이 (ex. 00세)" name="userage"/>
+            </div>
+            <p>사용자 사진</p>
+            <input type="file" name="file" />
+            <button type="submit" class="btn btn-primary">등록하기</button>
+</body>
