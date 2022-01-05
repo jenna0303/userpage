@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, json, render_template, redirect, request, url_for, jsonify, Response
 from sqlalchemy.orm.session import Session
 from werkzeug.utils import secure_filename
@@ -6,6 +8,10 @@ import os
 from models import Users
 app = Flask(__name__)
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS=(os.path.join('static'),)
+
+#사용자 등록 페이지
 @app.route('/register', methods = ['GET','POST'])
 def register():
     if request.method == 'GET' : #GET은 페이지가 나오도록 요청하기 위함
@@ -17,7 +23,7 @@ def register():
 
         #이미지 파일 받아와서 경로에 저장하기
         img = request.files['file']
-        save_to = f'static/profile_imgs/{img.filename}' #지정경로에 파일이름 그대로 저장하기
+        save_to = f'static/profile_imgs/{img.filename}'
         img.save(save_to)
         userface = img.filename #데이터베이스에 저장하기 위해 변수에 파일 이름을 삽입
 
@@ -42,6 +48,7 @@ def register():
         #사용자 등록 후 목록 페이지로 이동해야함. 
         return redirect(url_for('list'))
 
+#사용자 목록 페이지
 @app.route('/list', methods=['GET','POST'])
 def list():
     if request.method == 'GET':
@@ -63,18 +70,13 @@ def list():
             print(txtlist)
             return render_template("txt_list.html", data = txtlist)
 
+#사용자 상세 페이지
 @app.route('/detail/<userName>', methods=['GET'])
 def detail(userName):
                 if request.method == 'GET':
                     #dusers: users 테이블 중에 특정 사용자의 행을 가져와서 저장한다.
                     dusers = Users.query.filter(Users.username == userName).one()
-                    #특정 사용자의 저장 파일 명을 가져와서 경로를 지정한다.
-                    base_path = './static/profile_imgs/{dusers.profile_image}'
-                    #json 형태로 가져온다.
-                    p_response = request.get(base_path).json
-                    #Users 테이블에 저장된 값 중에서, 사용자 이름과 일치하는 행만 가져온다.
-                    return render_template("register.html", files = p_response)
-
+                    return render_template("detail.html", users = dusers)
 
 
 if __name__ == "__main__":

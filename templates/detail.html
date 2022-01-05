@@ -3,9 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>사용자 상세 페이지</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
 </html>
-<body>
+<body onload = "profInfo();">
     <div>
         <h1>사용자 상세 페이지</h1>
     </div>
@@ -13,20 +14,16 @@
         <p>사용자 이름: {{ users.username }}</p>
         <p>사용자 나이: {{ users.userage }}</p>
     </div>
+        <div id ="profile"></div>
     <script>
-        files = "/static/profile_imgs/Unknown.png"
-        $.ajax({
-            type : 'POST',                                  
-            url : 'http://127.0.0.1:5000/detail/{users.username}',
-            data : JSON.stringify(files),
-            dataType : 'JSON',
-            success : function(result){
-                
-            },
-            error : function(xtr,status,error){
-                alert(xtr +":"+status+":"+error);
-            }
-            });
+        function profInfo(){
+            $.ajax({
+                type : 'GET',                    
+                success : function(){
+                    $('#profile').html('<img src = "/static/profile_imgs/{{ users.profile_image }}"/>');
+                }
+             });
+        }
     </script>
    
 </body>
