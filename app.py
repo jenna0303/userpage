@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, json, render_template, redirect, request, url_for, jsonify, Response
+from flask import Flask, json, render_template, redirect, request, url_for, jsonify, Response, make_response
 from sqlalchemy.orm.session import Session
 from werkzeug.utils import secure_filename
 from models import db
@@ -78,6 +78,16 @@ def detail(userName):
                     dusers = Users.query.filter(Users.username == userName).one()
                     return render_template("detail.html", users = dusers)
 
+#ajax 처리
+@app.route('/ajax', methods=['POST'])
+def ajax():
+    value1 = request.form['username']
+    print(value1)
+    img_sql = Users.query.filter(Users.username == value1).one()
+    print(img_sql.profile_image)
+    json_return = json.dumps(img_sql.profile_image)
+    print(json_return)
+    return make_response(jsonify(json_return),200)
 
 if __name__ == "__main__":
     basedir = os.path.abspath(os.path.dirname(__file__))

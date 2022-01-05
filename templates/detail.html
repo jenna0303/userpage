@@ -6,22 +6,39 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
 </html>
-<body onload = "profInfo();">
+<body>
     <div>
         <h1>사용자 상세 페이지</h1>
     </div>
     <div>
         <p>사용자 이름: {{ users.username }}</p>
         <p>사용자 나이: {{ users.userage }}</p>
+        <form method="POST" enctype="multipart/form-data">
+            <div class = "form-group">
+                <label for="username">사용자 이름</label>
+                <input type="text" class="form-control" id="username" placeholder="사용자 이름" name="username"/>
+                <input type = "button" value = "데이터 요청" onclick="profInfo()"/>
+            </div>
+    
     </div>
         <div id ="profile"></div>
     <script>
         function profInfo(){
+            var filename = $('#username').val();
             $.ajax({
-                type : 'GET',                    
-                success : function(){
-                    $('#profile').html('<img src = "/static/profile_imgs/{{ users.profile_image }}"/>');
-                }
+                type : 'POST',
+                url: '/ajax',
+                data: {
+                    username:filename
+                },            
+                dataType: 'json',
+                success : function(res){
+                    var imgpath = "/static/profile_imgs/"+res.replace('"','');
+                    $('#profile').html('<img src ="'+imgpath+'/>');
+                },
+                error : function(err){
+                                alert(err);
+                        }
              });
         }
     </script>
